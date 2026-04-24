@@ -10,6 +10,7 @@ from plotly.subplots import make_subplots
 import streamlit as st
 
 
+
 # ------------------------------------------------------------
 # Page config / styles
 # ------------------------------------------------------------
@@ -22,10 +23,10 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .block-container {padding-top: 1.1rem; padding-bottom: 2rem;}
-    .kpi-label {font-size: 0.95rem; color: #5b6b7a; margin-bottom: 0.2rem;}
-    .kpi-value {font-size: 2rem; font-weight: 700; color: #183153; line-height: 1.1;}
-    .section-title {font-size: 1.45rem; font-weight: 700; margin: 0.2rem 0 0.75rem 0;}
+    .block-container {padding-top: 2.2rem; padding-bottom: 2rem;}
+    .kpi-label {font-size: 0.82rem; color: #5b6b7a; margin-bottom: 0.2rem;}
+    .kpi-value {font-size: 1.6rem; font-weight: 700; color: #183153; line-height: 1.1;}
+    .section-title {font-size: 1.05rem; font-weight: 700; margin: 0.2rem 0 0.6rem 0;}
     .card {
         background: #ffffff;
         border: 1px solid rgba(49, 51, 63, 0.12);
@@ -35,6 +36,21 @@ st.markdown(
         min-height: 118px;
     }
     .subtle {color: #6b7280; font-size: 0.92rem;}
+    /* ── Sidebar 字體縮小 ── */
+    section[data-testid="stSidebar"] {font-size: 0.82rem;}
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3 {font-size: 0.95rem !important; margin-bottom: 0.4rem;}
+    section[data-testid="stSidebar"] label {font-size: 0.82rem !important;}
+    section[data-testid="stSidebar"] .stCheckbox label,
+    section[data-testid="stSidebar"] .stRadio label,
+    section[data-testid="stSidebar"] .stMultiSelect label,
+    section[data-testid="stSidebar"] .stDateInput label,
+    section[data-testid="stSidebar"] .stSelectbox label {font-size: 0.82rem !important;}
+    section[data-testid="stSidebar"] .stMultiSelect [data-baseweb="tag"] {font-size: 0.75rem;}
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] span {font-size: 0.82rem;}
+    section[data-testid="stSidebar"] hr {margin: 0.5rem 0;}
     </style>
     """,
     unsafe_allow_html=True,
@@ -45,7 +61,6 @@ st.markdown(
 # Constants
 # ------------------------------------------------------------
 #DEFAULT_LOCAL_XLSX_PATH = r"D:\DeskT\Austin 自動化\新增資料夾\CSP訂單資料_raw.xlsx"
-
 DEFAULT_LOCAL_XLSX_PATH = "CSP訂單資料_raw.xlsx"
 
 STATUS_TO_REMOVE = {"下單異常", "已取消", "已退貨"}
@@ -796,30 +811,30 @@ def render_marketing_kpi_cards(last_metrics: dict, this_metrics: dict) -> None:
     background:{bg};
     border-radius:14px;
     border-top:6px solid {accent};
-    padding:22px 22px 20px;
+    padding:14px 16px 12px;
     box-shadow:0 2px 10px rgba(0,0,0,0.08);
     margin-bottom:4px;
 ">
   <!-- 標題 -->
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-    <span style="font-size:36px;line-height:1;">{icon}</span>
-    <span style="font-size:24px;font-weight:700;color:#374151;letter-spacing:0.4px;">{label}</span>
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+    <span style="font-size:20px;line-height:1;">{icon}</span>
+    <span style="font-size:14px;font-weight:700;color:#374151;letter-spacing:0.3px;">{label}</span>
   </div>
   <!-- 去年度 / 今年度 並排 -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;margin-bottom:16px;">
-    <div style="font-size:20px;color:#9CA3AF;font-weight:600;letter-spacing:0.5px;">去年度</div>
-    <div style="font-size:20px;color:{accent};font-weight:700;letter-spacing:0.5px;">今年度</div>
-    <div style="font-size:30px;font-weight:800;color:#1F2937;white-space:nowrap;">{last_str}</div>
-    <div style="font-size:30px;font-weight:800;color:{accent};white-space:nowrap;">{this_str}</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;margin-bottom:10px;">
+    <div style="font-size:12px;color:#9CA3AF;font-weight:600;">去年度</div>
+    <div style="font-size:12px;color:{accent};font-weight:700;">今年度</div>
+    <div style="font-size:18px;font-weight:800;color:#1F2937;white-space:nowrap;">{last_str}</div>
+    <div style="font-size:18px;font-weight:800;color:{accent};white-space:nowrap;">{this_str}</div>
   </div>
   <!-- 差異標籤 -->
   <div style="
-    display:inline-flex;align-items:center;gap:6px;
-    padding:6px 16px;border-radius:20px;
+    display:inline-flex;align-items:center;gap:5px;
+    padding:3px 10px;border-radius:20px;
     background:{d_bg};
   ">
-    <span style="font-size:20px;font-weight:700;color:{d_color};">{arrow} {diff_str}</span>
-    <span style="font-size:18px;color:#6B7280;">YOY</span>
+    <span style="font-size:12px;font-weight:700;color:{d_color};">{arrow} {diff_str}</span>
+    <span style="font-size:11px;color:#6B7280;">YOY</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -876,7 +891,9 @@ def render_diff_cards(last_metrics: dict, this_metrics: dict) -> None:
 # ------------------------------------------------------------
 st.title("Weblink M365 續約概況與精準行銷推廣平台")
 
-with st.expander("支援 Excel 上傳、資料清洗、FY年度 / 季度代碼衍生、Forecast 分析、KPI 與趨勢圖。", expanded=False):
+_data_exp = st.expander("📂 資料載入與摘要", expanded=False)
+with _data_exp:
+    st.caption("支援 Excel 上傳、資料清洗、FY年度 / 季度代碼衍生、Forecast 分析、KPI 與趨勢圖。")
     uploaded_file = st.file_uploader("請上傳 Excel 檔案（.xlsx）", type=["xlsx"])
 default_last_period, default_this_period = infer_default_periods()
 default_local_file_exists = Path(DEFAULT_LOCAL_XLSX_PATH).exists()
@@ -989,30 +1006,28 @@ with st.sidebar:
 expiry_range = date_input_to_tuple(expiry_range_raw)
 order_range = date_input_to_tuple(order_range_raw)
 
-st.caption(data_source_label)
-
-if info["warnings"]:
-    for msg in info["warnings"]:
-        st.warning(msg)
-if info["missing_columns"]:
-    st.error("缺少必要分析欄位：" + "、".join(info["missing_columns"]))
-    st.stop()
-
-with st.expander("原始資料摘要", expanded=False):
-    c1, c2 = st.columns(2)
-    c1.metric("原始資料筆數", fmt_int(len(raw_df)))
-    c2.metric("原始資料欄位數", fmt_int(raw_df.shape[1]))
-    st.dataframe(raw_df.head(200), use_container_width=True, height=300)
-
-with st.expander("清洗資訊與清洗後資料摘要", expanded=False):
-    c1, c2 = st.columns(2)
-    c1.metric("清洗後資料筆數", fmt_int(len(cleaned_df)))
-    c2.metric("清洗後資料欄位數", fmt_int(cleaned_df.shape[1]))
-    if info["dropped_columns"]:
-        st.caption("已刪除欄位：" + "、".join(info["dropped_columns"]))
-    failures = [f"{k}={v}" for k, v in info["date_parse_failures"].items() if v > 0]
-    st.caption("日期轉換失敗筆數：" + ("；".join(failures) if failures else "0"))
-    st.dataframe(cleaned_df.head(200), use_container_width=True, height=320)
+with _data_exp:
+    st.caption(data_source_label)
+    if info["warnings"]:
+        for msg in info["warnings"]:
+            st.warning(msg)
+    if info["missing_columns"]:
+        st.error("缺少必要分析欄位：" + "、".join(info["missing_columns"]))
+        st.stop()
+    with st.expander("原始資料摘要", expanded=False):
+        c1, c2 = st.columns(2)
+        c1.metric("原始資料筆數", fmt_int(len(raw_df)))
+        c2.metric("原始資料欄位數", fmt_int(raw_df.shape[1]))
+        st.dataframe(raw_df.head(200), use_container_width=True, height=300)
+    with st.expander("清洗資訊與清洗後資料摘要", expanded=False):
+        c1, c2 = st.columns(2)
+        c1.metric("清洗後資料筆數", fmt_int(len(cleaned_df)))
+        c2.metric("清洗後資料欄位數", fmt_int(cleaned_df.shape[1]))
+        if info["dropped_columns"]:
+            st.caption("已刪除欄位：" + "、".join(info["dropped_columns"]))
+        failures = [f"{k}={v}" for k, v in info["date_parse_failures"].items() if v > 0]
+        st.caption("日期轉換失敗筆數：" + ("；".join(failures) if failures else "0"))
+        st.dataframe(cleaned_df.head(200), use_container_width=True, height=320)
 
 filtered_df = apply_filters(cleaned_df, selected_resellers, selected_customers, expiry_range, order_range, selected_staff)
 filtered_df, forecast_key_df = calculate_forecast(filtered_df, last_period, this_period)
@@ -1205,6 +1220,7 @@ def _build_grouped_detail(src_df: pd.DataFrame) -> tuple[pd.DataFrame, int, int]
 
 
 tab_main, tab_copilot, tab_marketing = st.tabs(["📊 主要分析", "🤖 Copilot New Penetration", "🎯 精準行銷"])
+
 
 with tab_main:
     st.markdown("---")
@@ -1743,7 +1759,7 @@ with tab_marketing:
     _warn.loc[_not_renewed & (_d >  45) & (_d <= 60 )] = "🟤 60天"
     _warn.loc[_not_renewed & (_d >  60) & (_d <= 90 )] = "⚫ 90天"
 
-    _mkt_tbl = _mkt_tbl.drop(columns=["_days"])
+    # _days 保留給後續續約率計算使用（不會出現在 _mkt_display 的欄位清單中）
 
     # 插入固定欄
     _mkt_tbl.insert(0, "排序", range(1, len(_mkt_tbl) + 1))
@@ -1772,8 +1788,12 @@ with tab_marketing:
     }
     _W_ORDER = list(_W_COLORS.keys())
 
+    # 示警分析只計算「去年度有購買記錄」的客戶
+    # （今年才新增、去年沒買過的客戶不列入續約率計算）
+    _mkt_tbl_ly = _mkt_tbl[_mkt_tbl["去年度總金額"] > 0].copy()
+
     _warn_counts = (
-        _mkt_tbl["未續約示警"]
+        _mkt_tbl_ly["未續約示警"]
         .replace("", "（無資料）")
         .value_counts()
         .reset_index()
@@ -1785,10 +1805,15 @@ with tab_marketing:
     _warn_counts = _warn_counts.sort_values("_ord").drop(columns=["_ord"]).reset_index(drop=True)
 
     _wc = _warn_counts.set_index("狀態")["客戶數"].to_dict()
-    _total_cust    = len(_mkt_tbl)
-    _renewed_count = int(_mkt_tbl["未續約示警"].str.contains("已續約", na=False).sum())
+    _total_cust    = len(_mkt_tbl_ly)                  # 去年度客戶數（總覽用）
+    _renewed_count = int(_mkt_tbl_ly["未續約示警"].str.contains("已續約", na=False).sum())
     _warn_total    = _total_cust - _renewed_count
-    _renewal_rate  = _renewed_count / _total_cust * 100 if _total_cust > 0 else 0
+
+    # 續約成功率：分母限縮為「截至今日已到期的去年度客戶」（_days < 0）
+    _expired_ly          = _mkt_tbl_ly[_mkt_tbl_ly["_days"].notna() & (_mkt_tbl_ly["_days"] < 0)]
+    _expired_cnt         = len(_expired_ly)
+    _expired_renewed_cnt = int((_expired_ly["今年度總金額"] > 0).sum())
+    _renewal_rate        = _expired_renewed_cnt / _expired_cnt * 100 if _expired_cnt > 0 else 0
     _cnt_expired   = int(_wc.get("🔴 已到期", 0))
     _cnt_15        = int(_wc.get("🟡 15天",   0))
     _cnt_30        = int(_wc.get("🟠 30天",   0))
@@ -1805,12 +1830,12 @@ with tab_marketing:
     with _rpt_h1:
         st.markdown(
             "<h3 style='margin-bottom:2px;'>🔴 90天內未續約示警分析報告</h3>"
-            "<p style='color:#6B7280;font-size:15px;margin-top:0;'>實時監控合約到期狀況與續約表現</p>",
+            "<p style='color:#6B7280;font-size:13px;margin-top:0;'>實時監控合約到期狀況與續約表現</p>",
             unsafe_allow_html=True,
         )
     with _rpt_h2:
         st.markdown(
-            f"<p style='text-align:right;color:#9CA3AF;font-size:15px;padding-top:14px;'>"
+            f"<p style='text-align:right;color:#9CA3AF;font-size:12px;padding-top:14px;'>"
             f"🕐 數據最後更新於：{_today_str}</p>",
             unsafe_allow_html=True,
         )
@@ -1818,7 +1843,7 @@ with tab_marketing:
     # ── KPI 三欄 ─────────────────────────────────────────────────────────
     _k1, _k2, _k3 = st.columns(3)
     for _col, _icon, _ibg, _label, _val, _vcolor, _suffix in [
-        (_k1, "👥", "#EFF6FF", "總客戶數",   f"{_total_cust:,}",        "#1E3A8A", ""),
+        (_k1, "👥", "#EFF6FF", "去年度客戶數", f"{_total_cust:,}",       "#1E3A8A", ""),
         (_k2, "✅", "#F0FDF4", "續約成功率", f"{_renewal_rate:.1f}%",   "#16A34A", ""),
         (_k3, "⏰", "#FFF1F2", "待跟進示警", f"{_warn_total:,}",        "#DC2626", " 位"),
     ]:
@@ -1827,12 +1852,12 @@ with tab_marketing:
                 box-shadow:0 2px 8px rgba(0,0,0,0.07);border:1px solid #F3F4F6;
                 margin-bottom:4px;">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-                <span style="background:{_ibg};border-radius:10px;padding:8px 10px;
-                             font-size:20px;line-height:1;">{_icon}</span>
-                <span style="color:#6B7280;font-size:15px;font-weight:500;">{_label}</span>
+                <span style="background:{_ibg};border-radius:10px;padding:6px 8px;
+                             font-size:16px;line-height:1;">{_icon}</span>
+                <span style="color:#6B7280;font-size:13px;font-weight:500;">{_label}</span>
               </div>
-              <div style="font-size:38px;font-weight:800;color:{_vcolor};letter-spacing:-0.5px;">
-                {_val}<span style="font-size:18px;font-weight:400;color:#9CA3AF;">{_suffix}</span>
+              <div style="font-size:30px;font-weight:800;color:{_vcolor};letter-spacing:-0.5px;">
+                {_val}<span style="font-size:14px;font-weight:400;color:#9CA3AF;">{_suffix}</span>
               </div>
             </div>""",
             unsafe_allow_html=True,
@@ -1845,7 +1870,7 @@ with tab_marketing:
 
     with _mid_l:
         with st.container(border=True):
-            st.markdown("<span style='font-size:16px;font-weight:700;'>續約警示時間軸（人數）</span>",
+            st.markdown("<span style='font-size:13px;font-weight:700;'>續約警示時間軸（人數）</span>",
                         unsafe_allow_html=True)
 
             # 已續約在最下方，示警在上方；倒序讓「已到期」顯示在最頂端
@@ -1872,7 +1897,7 @@ with tab_marketing:
                 marker_color=_bc_clrs,
                 text=[str(v) if v > 0 else "" for v in _bc_vals],
                 textposition="outside",
-                textfont=dict(size=14, color="#374151"),
+                textfont=dict(size=12, color="#374151"),
                 cliponaxis=False,
                 hovertemplate="%{y}：%{x} 位<extra></extra>",
             ))
@@ -1883,7 +1908,7 @@ with tab_marketing:
                 paper_bgcolor="white",
                 plot_bgcolor="white",
                 xaxis=dict(showgrid=False, visible=False),
-                yaxis=dict(showgrid=False, tickfont=dict(size=14)),
+                yaxis=dict(showgrid=False, tickfont=dict(size=12)),
                 showlegend=False,
                 shapes=[dict(
                     type="line",
@@ -1897,27 +1922,29 @@ with tab_marketing:
             _bs1, _bs2 = st.columns(2)
             _bs1.markdown(
                 f"<div style='text-align:center;padding:6px 0;'>"
-                f"<div style='font-size:13px;color:#6B7280;'>最高風險</div>"
-                f"<div style='font-size:16px;font-weight:700;color:#EF4444;'>"
+                f"<div style='font-size:12px;color:#6B7280;'>最高風險</div>"
+                f"<div style='font-size:14px;font-weight:700;color:#EF4444;'>"
                 f"已到期 ({_cnt_expired})</div></div>",
                 unsafe_allow_html=True,
             )
             _bs2.markdown(
                 f"<div style='text-align:center;padding:6px 0;'>"
-                f"<div style='font-size:13px;color:#6B7280;'>平均關注</div>"
-                f"<div style='font-size:16px;font-weight:700;color:#374151;'>"
+                f"<div style='font-size:12px;color:#6B7280;'>平均關注</div>"
+                f"<div style='font-size:14px;font-weight:700;color:#374151;'>"
                 f"~{_avg_per_stage:.0f}位/階段</div></div>",
                 unsafe_allow_html=True,
             )
 
     with _mid_r:
         with st.container(border=True):
-            st.markdown("<span style='font-size:16px;font-weight:700;'>續約與示警分佈</span>",
+            st.markdown("<span style='font-size:13px;font-weight:700;'>續約與示警分佈</span>",
                         unsafe_allow_html=True)
 
+            # 甜甜圈只計算「已到期」客戶的續約 vs 未續約
+            _expired_not_renewed = _expired_cnt - _expired_renewed_cnt
             _donut_fig = go.Figure(go.Pie(
-                labels=["已續約安全區", "待處理示警區"],
-                values=[_renewed_count, _warn_total],
+                labels=["已到期已續約", "已到期未續約"],
+                values=[_expired_renewed_cnt, _expired_not_renewed],
                 marker=dict(
                     colors=["#22C55E", "#F97316"],
                     line=dict(color="#FFFFFF", width=3),
@@ -1933,18 +1960,19 @@ with tab_marketing:
                 showlegend=False,
                 annotations=[dict(
                     text=f"<b>{_renewal_rate:.1f}%</b><br>續約率",
-                    x=0.5, y=0.5, font_size=17, showarrow=False,
+                    x=0.5, y=0.5, font_size=14, showarrow=False,
                 )],
             )
             st.plotly_chart(_donut_fig, use_container_width=True)
 
+            _not_renewed_rate = 100 - _renewal_rate
             for _lbl, _clr, _pct in [
-                ("已續約安全區", "#22C55E", _renewal_rate),
-                ("待處理示警區", "#F97316", 100 - _renewal_rate),
+                ("已到期已續約", "#22C55E", _renewal_rate),
+                ("已到期未續約", "#F97316", _not_renewed_rate),
             ]:
                 st.markdown(
                     f"<div style='display:flex;align-items:center;gap:8px;"
-                    f"font-size:16px;margin:6px 0;'>"
+                    f"font-size:13px;margin:5px 0;'>"
                     f"<span style='width:12px;height:12px;border-radius:50%;"
                     f"background:{_clr};display:inline-block;flex-shrink:0;'></span>"
                     f"<span style='color:#374151;'>{_lbl}</span>"
@@ -1958,7 +1986,7 @@ with tab_marketing:
                 st.markdown(
                     f"<div style='margin-top:12px;background:#FFFBEB;"
                     f"border-left:3px solid #F59E0B;border-radius:6px;"
-                    f"padding:11px 13px;font-size:14px;color:#92400E;'>"
+                    f"padding:9px 11px;font-size:12px;color:#92400E;'>"
                     f"💡 提示：雖然續約率高，但「已到期」客戶佔了示警區的近 "
                     f"<b>{_ep:.0f}%</b>，應優先介入處理。</div>",
                     unsafe_allow_html=True,
@@ -1968,7 +1996,7 @@ with tab_marketing:
 
     # ── 後續行動建議 ──────────────────────────────────────────────────────
     with st.container(border=True):
-        st.markdown("<span style='font-size:16px;font-weight:700;'>後續行動建議</span>",
+        st.markdown("<span style='font-size:13px;font-weight:700;'>後續行動建議</span>",
                     unsafe_allow_html=True)
         _ac1, _ac2, _ac3 = st.columns(3)
         for _acol, _dot, _title, _body in [
@@ -1983,11 +2011,88 @@ with tab_marketing:
             _acol.markdown(
                 f"""<div style="padding:16px 18px;border-radius:10px;
                     background:#FAFAFA;border:1px solid #E5E7EB;height:100%;">
-                  <div style="font-weight:700;font-size:17px;margin-bottom:9px;">{_title}</div>
-                  <div style="font-size:15px;color:#4B5563;line-height:1.7;">{_body}</div>
+                  <div style="font-weight:700;font-size:14px;margin-bottom:7px;">{_title}</div>
+                  <div style="font-size:13px;color:#4B5563;line-height:1.6;">{_body}</div>
                 </div>""",
                 unsafe_allow_html=True,
             )
+
+    # ── 數值說明 ──────────────────────────────────────────────────────────
+    with st.expander("📖 數值計算說明", expanded=False):
+        st.markdown("""
+### 資料基礎
+
+所有數值的母體皆來自 **客戶續約概況表（`_mkt_tbl`）**，建立流程：
+
+```
+原始資料
+  → 排除 資格＝教育／非營利、訂單動作＝下單異常／已取消／已退貨
+  → 套用 Sidebar 篩選（經銷商 / 最終客戶 / 展碁業務 / 日期區間 / 推廣勾選）
+  → 套用 Month / Quarter 子篩選
+  → 去年度 / 今年度各自依「最終客戶」加總 成交價未稅小計
+  → Outer Join → 每列 = 一位客戶
+```
+
+---
+
+### KPI 卡片
+
+| 指標 | 計算公式 |
+|---|---|
+| **去年度客戶數** | 去年度有購買記錄的唯一客戶數（今年才新增的客戶不列入）|
+| **續約成功率** | 截至今日**已到期**的去年度客戶中，今年度有購買的比例（已到期已續約數 ÷ 已到期客戶數 × 100%）|
+| **待跟進示警** | 去年度客戶中，今年度尚未購買的客戶數 |
+
+---
+
+### 未續約示警判斷邏輯
+
+依序判斷，**優先判斷已續約**：
+
+| 狀態 | 條件 |
+|---|---|
+| 🟩 已續約（增加/持平） | 今年度 > 0　且　今年度 ≥ 去年度 |
+| 🟥 已續約（減少） | 今年度 > 0　且　今年度 < 去年度 |
+| 🔴 已到期 | 今年度 = 0，最晚到期日距今 **< 0 天** |
+| 🟡 15天內 | 今年度 = 0，距今 **0 ～ 15 天** |
+| 🟠 30天內 | 今年度 = 0，距今 **16 ～ 30 天** |
+| 🟣 45天內 | 今年度 = 0，距今 **31 ～ 45 天** |
+| 🟤 60天內 | 今年度 = 0，距今 **46 ～ 60 天** |
+| ⚫ 90天內 | 今年度 = 0，距今 **61 ～ 90 天** |
+| （空白）  | 今年度 = 0，距今 > 90 天，或去年度無訂閱到期日資料 |
+
+> **到期日來源**：取該客戶在**去年度**資料中最晚的「訂閱到期日」與今天計算天數差。
+
+---
+
+### 甜甜圈圖
+
+| 區塊 | 說明 |
+|---|---|
+| **已到期已續約** | 去年度訂閱**已到期**（到期日 < 今天），且今年度有購買記錄 |
+| **已到期未續約** | 去年度訂閱**已到期**（到期日 < 今天），今年度尚無購買記錄 |
+
+> 訂閱尚未到期（🟡🟠🟣🟤⚫ 示警中）的客戶不計入甜甜圈，因其合約仍有效，不影響目前的續約率。|
+
+---
+
+### 長條圖底部統計
+
+| 指標 | 計算 |
+|---|---|
+| **最高風險** | 固定顯示「🔴 已到期」人數 |
+| **平均關注** | （待跟進總數 − 已到期數）÷ 5　（15/30/45/60/90 天共 5 個階段的平均值）|
+
+---
+
+### 後續行動建議（動態數值）
+
+| 卡片 | 引用數值 |
+|---|---|
+| 🔴 立即搶救 | 🔴 已到期 人數 |
+| 🟠 關鍵溝通 | 🟡 15天 ＋ 🟠 30天 人數合計 |
+| ⚫ 持續監控 | 🟣 45天 ＋ 🟤 60天 ＋ ⚫ 90天 人數合計 |
+""")
 
     # ── KPI 指標 ──────────────────────────────────────────────────────────
     st.markdown("---")
