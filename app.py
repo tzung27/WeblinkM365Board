@@ -2148,3 +2148,34 @@ with tab_marketing:
         st.caption(f"共 {_gd_this_n_grp} 個客戶群組 ／ {_gd_this_n_rows:,} 筆明細　｜　依加總金額降序排列")
         st.dataframe(_gd_this_result, use_container_width=True, hide_index=True,
                      column_config=_gd_col_cfg)
+
+    # ── Top 15 商品名稱（增減比較） ────────────────────────────────────────
+    st.markdown("---")
+    st.subheader("Top 15 商品名稱（增減比較）")
+
+    _mkt_fmt_money = lambda v: f"{v/1e6:.1f}M" if abs(v) >= 1e6 else f"{v:,.0f}"
+    _mkt_fmt_qty   = lambda v: f"{int(round(v)):,}"
+
+    _mkt_chg_col1, _mkt_chg_col2 = st.columns(2)
+    with _mkt_chg_col1:
+        st.plotly_chart(
+            _build_top15_change_fig(
+                filtered_df_sel, last_period, this_period,
+                "成交價未稅小計",
+                "Top 15 商品名稱（金額之增減｜今年度 vs 去年度）",
+                _mkt_fmt_money,
+            ),
+            use_container_width=True,
+            key="mkt_top15_money",
+        )
+    with _mkt_chg_col2:
+        st.plotly_chart(
+            _build_top15_change_fig(
+                filtered_df_sel, last_period, this_period,
+                "數量",
+                "Top 15 商品名稱（數量之增減｜今年度 vs 去年度）",
+                _mkt_fmt_qty,
+            ),
+            use_container_width=True,
+            key="mkt_top15_qty",
+        )
