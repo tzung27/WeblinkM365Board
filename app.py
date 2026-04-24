@@ -899,6 +899,26 @@ default_last_period, default_this_period = infer_default_periods()
 default_local_file_exists = Path(DEFAULT_LOCAL_XLSX_PATH).exists()
 
 with st.sidebar:
+    # ── 分析年度選擇器（最上方） ───────────────────────────────────────────
+    _base_year_default = default_this_period.start.year   # 今年度起始年，預設 2026
+    _year_options = list(range(_base_year_default - 4, _base_year_default + 5))
+
+    def _on_base_year_change():
+        _by = st.session_state["base_year"]
+        st.session_state["last_range"] = (date(_by - 1, 7, 1), date(_by,     6, 30))
+        st.session_state["this_range"] = (date(_by,     7, 1), date(_by + 1, 6, 30))
+
+    st.selectbox(
+        "📅 分析年度",
+        options=_year_options,
+        index=_year_options.index(_base_year_default),
+        format_func=lambda y: (
+            f"{y}（去 FY{str(y % 100).zfill(2)}｜今 FY{str((y + 1) % 100).zfill(2)}）"
+        ),
+        key="base_year",
+        on_change=_on_base_year_change,
+    )
+    st.markdown("---")
     st.header("篩選條件")
     show_time_ranges = st.checkbox("顯示時間範圍(以訂閱到期日為基準)", value=False)
     if show_time_ranges:
@@ -958,8 +978,11 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("**分析年度區間**")
-    last_range_raw = st.date_input("去年度區間", value=(default_last_period.start.date(), default_last_period.end.date()), key="last_range")
-    this_range_raw = st.date_input("今年度區間", value=(default_this_period.start.date(), default_this_period.end.date()), key="this_range")
+    # 若 session_state 已由年度選擇器寫入，優先使用；否則沿用 infer_default_periods 的預設值
+    _last_range_default = st.session_state.get("last_range") or (default_last_period.start.date(), default_last_period.end.date())
+    _this_range_default = st.session_state.get("this_range") or (default_this_period.start.date(), default_this_period.end.date())
+    last_range_raw = st.date_input("去年度區間", value=_last_range_default, key="last_range")
+    this_range_raw = st.date_input("今年度區間", value=_this_range_default, key="this_range")
 
 # 資料來源：上傳優先，否則固定路徑
 try:
